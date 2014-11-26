@@ -9,7 +9,14 @@ class StichliteAPIController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		
+		$records = Stichliteinventorydetails::all();
+
+		return Response::json( array(
+		        'error' => false,
+		        'result' => $records ),
+        		200
+    	);
 	}
 
 
@@ -43,7 +50,13 @@ class StichliteAPIController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$records = Stichliteinventorydetails::find($id);
+
+		return Response::json( array(
+		        'error' => false,
+		        'result' => $records ),
+        		200
+    	);
 	}
 
 

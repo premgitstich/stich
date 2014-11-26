@@ -23,4 +23,5 @@ Route::group( array('prefix' => 'api/' ), function(){
 
 
 Route::group( array('prefix' => 'api/v1' ), function(){
+	Route::resource( 'products', 'StichliteAPIController' );
 });

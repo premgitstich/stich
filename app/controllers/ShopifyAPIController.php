@@ -65,7 +65,10 @@ class ShopifyAPIController extends \BaseController {
 				foreach($variants as $variant){
 				
 					$this->storeToShopify($product,$variant);
-					//$this->storeToStichlite($product,$variant);
+					
+					$this->storeToStichliteInventory($product,$variant);
+
+					$this->storeToStichliteInventoryDetails($product,$variant);
 					
 				}
 			}
@@ -81,8 +84,9 @@ class ShopifyAPIController extends \BaseController {
 		if($record){
 
 			$record->quantity=$variant['inventory_quantity'];
+			$record->price=$variant['price'];
 			$record->save();
-		
+			
 		}else{
 			$record = new Shopify();
 			$record->product_name=$product['title'];
@@ -94,23 +98,61 @@ class ShopifyAPIController extends \BaseController {
 		}
 	}
 
-	private function storeToStichlite($product,$variant){
+	private function storeToStichliteInventory($product,$variant){
 		$sku=$variant['sku'];
-		$record = StichLite::where('sku','=',$sku)->first();
+
+		$channel='shopify';
+				
+		$record = Stichliteinventory::where('sku','=',$sku)->first();
 		
 		//Insert or update
 		if($record){
-
-			$record->quantity=$variant['inventory_quantity'];
+			
 			$record->save();
+			$record->channel=$channel;
+			$record->price=$variant['price'];
 		
 		}else{
-			$record = new Shopify();
+			
+			$record = new Stichliteinventory();
 			$record->product_name=$product['title'];
 			$record->sku=$sku;
 			$record->quantity=$variant['inventory_quantity'];
 			$record->price=$variant['price'];
+			$record->channel=$channel;
+			$record->save();
+		}
+	}
+
+	private function storeToStichliteInventoryDetails($product,$variant){
+		$sku=$variant['sku'];
+
+		$channel='shopify';
+
+		$record = Stichliteinventorydetails::where('sku','=',$sku)->first();
+		
+
+
+		//Insert or update
+		if($record){
+
+			$stichliteRecord=Stichliteinventory::where('sku','=',$sku)->first();
+
 			
+			$record->quantity_on_pull=$variant['inventory_quantity'];
+			$record->quantity_on_stichlite=$stichliteRecord->quantity;
+
+			$record->price=$variant['price'];
+			$record->channel=$channel;
+			$record->save();
+		
+		}else{
+			$record = new Stichliteinventorydetails();
+			$record->product_name=$product['title'];
+			$record->sku=$sku;
+			$record->quantity_on_pull=$variant['inventory_quantity'];
+			$record->price=$variant['price'];
+			$record->channel=$channel;
 			$record->save();
 		}
 	}
