@@ -20,27 +20,6 @@ class StichliteAPIController extends \BaseController {
 	}
 
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
 
 	/**
 	 * Display the specified resource.
@@ -60,40 +39,23 @@ class StichliteAPIController extends \BaseController {
 	}
 
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
+
+	public function sync()
 	{
-		//
+		// Pull from  each sales Channel eg: Shopify
+		
+		// Get Inventory details from stichlight
+		
+		// Find changes between stichlite inventory and sales channel
+		
+		// Push difference in quanity to Sales channel
+		
+		
+		
+
+		$result=App::make('ShopifyAPIController')->syncShopify();
+
+
 	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
 
 }

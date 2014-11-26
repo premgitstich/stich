@@ -216,5 +216,11 @@ class ShopifyAPIController extends \BaseController {
 		//
 	}
 
+	function syncShopify(){
+	
+		
+		return "need to complete sync for shopify";
+	}
+
 
 }
